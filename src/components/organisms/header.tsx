@@ -10,8 +10,10 @@ import {
   SheetTrigger,
 } from "../atoms/sheet";
 import { ThemeToggle } from "./theme-toggle";
+import { useRouter } from "next/navigation";
 
 export const Header = () => {
+  const router = useRouter();
   const [isScrolled, setIsScrolled] = useState(false);
   const [mobileMenuOpen, setMobileMenuOpen] = useState(false);
 
@@ -47,11 +49,11 @@ export const Header = () => {
             <a href="/" className="flex items-center space-x-2 group">
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                 <span className="text-primary-foreground font-bold text-lg">
-                  E
+                  A
                 </span>
               </div>
               <span className="text-xl font-semibold text-foreground">
-                Emergent
+                Aranno E-mart
               </span>
             </a>
           </div>
@@ -71,10 +73,13 @@ export const Header = () => {
 
           {/* Desktop CTA Buttons */}
           <div className="hidden md:flex items-center space-x-3">
-            <Button variant="ghost" size="sm">
+            <Button
+              size="sm"
+              onClick={() => router.push("/auth/login")}
+              className="cursor-pointer"
+            >
               Sign In
             </Button>
-            <Button size="sm">Get Started</Button>
             <ThemeToggle />
           </div>
 
@@ -93,10 +98,12 @@ export const Header = () => {
                     <div className="flex items-center space-x-2">
                       <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center">
                         <span className="text-primary-foreground font-bold text-lg">
-                          E
+                          A
                         </span>
                       </div>
-                      <span className="text-xl font-semibold">Emergent</span>
+                      <span className="text-xl font-semibold">
+                        Aranno E-mart
+                      </span>
                     </div>
                   </SheetTitle>
                 </SheetHeader>
@@ -113,17 +120,10 @@ export const Header = () => {
                   ))}
                   <div className="pt-4 space-y-2 border-t border-border mt-4">
                     <Button
-                      variant="ghost"
-                      className="w-full justify-start"
-                      onClick={() => setMobileMenuOpen(false)}
+                      className="w-full"
+                      onClick={() => router.push("/auth/login")}
                     >
                       Sign In
-                    </Button>
-                    <Button
-                      className="w-full"
-                      onClick={() => setMobileMenuOpen(false)}
-                    >
-                      Get Started
                     </Button>
                   </div>
                 </nav>
