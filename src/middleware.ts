@@ -6,15 +6,15 @@ export default auth((req) => {
   console.log(path);
 
   // Public Routes
-  const homeRoutes = "/";
   const publicRoutes = ["/auth/login", "/auth/signup", "/"];
 
   const isAuthenticated = !!req.auth;
-  const isHomeRoutes = homeRoutes.includes(path);
   const isPublicRoute = publicRoutes.includes(path);
+  const isAdminRoute =
+    path === "/admin-portal" || path.startsWith("/admin-portal/");
 
   // Redirect unauthenticated users ONLY if not on a public route
-  if (!isAuthenticated && !isPublicRoute) {
+  if (!isAuthenticated && !isPublicRoute && !isAdminRoute) {
     return NextResponse.redirect(new URL("/auth/login", req.url));
   }
 
@@ -24,7 +24,7 @@ export default auth((req) => {
   }
 
   // Redirect authenticated users away from public routes
-  if (isAuthenticated && isHomeRoutes) {
+  if (isAuthenticated) {
     return NextResponse.redirect(new URL("/dashboard", req.url));
   }
 
