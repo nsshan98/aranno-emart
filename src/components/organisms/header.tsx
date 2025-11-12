@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Menu } from "lucide-react";
+import { Menu, ShoppingCart } from "lucide-react";
 import { Button } from "../atoms/button";
 import {
   Sheet,
@@ -11,6 +11,7 @@ import {
 } from "../atoms/sheet";
 import { ThemeToggle } from "./theme-toggle";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export const Header = () => {
   const router = useRouter();
@@ -36,7 +37,7 @@ export const Header = () => {
 
   return (
     <header
-      className={`z-50 transition-all duration-300 ${
+      className={`shadow-sm sticky top-0  z-50 transition-all duration-300 ${
         isScrolled
           ? "bg-background/95 backdrop-blur-md shadow-sm border-b border-border"
           : "bg-transparent"
@@ -46,7 +47,7 @@ export const Header = () => {
         <div className="flex items-center justify-between h-16">
           {/* Logo */}
           <div className="flex-shrink-0">
-            <a href="/" className="flex items-center space-x-2 group">
+            <Link href="/" className="flex items-center space-x-2 group">
               <div className="w-8 h-8 bg-primary rounded-lg flex items-center justify-center transition-transform duration-300 group-hover:scale-110">
                 <span className="text-primary-foreground font-bold text-lg">
                   A
@@ -55,7 +56,7 @@ export const Header = () => {
               <span className="text-xl font-semibold text-foreground">
                 Aranno E-mart
               </span>
-            </a>
+            </Link>
           </div>
 
           {/* Desktop Navigation */}
@@ -79,6 +80,13 @@ export const Header = () => {
               className="cursor-pointer"
             >
               Sign In
+            </Button>
+            <Button
+              className="bg-[#E97B2F] hover:bg-[#D66A20] text-white"
+              size={"lg"}
+            >
+              <ShoppingCart className="mr-2 h-4 w-4" />
+              Cart (0)
             </Button>
             <ThemeToggle />
           </div>

@@ -20,6 +20,7 @@ import { useRouter } from "next/navigation";
 import { Spinner } from "../atoms/spinner";
 import { useCreateUser } from "@/hooks/reactQuery/authQuery";
 import { isAxiosError } from "axios";
+import Image from "next/image";
 
 const SignupComponent = () => {
   const router = useRouter();
@@ -82,9 +83,11 @@ const SignupComponent = () => {
           {/* Illustration */}
           <div className="relative hidden lg:block">
             <div className="bg-white rounded-[100px] p-8 lg:p-12">
-              <img
+              <Image
                 src="https://plus.unsplash.com/premium_vector-1682305842206-a24d1f9acf74?ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8fA%3D%3D&fm=jpg&q=60&w=3000"
                 alt="People shopping"
+                width={500}
+                height={500}
                 className="w-full h-auto object-contain"
               />
             </div>
