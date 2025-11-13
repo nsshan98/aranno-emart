@@ -10,7 +10,7 @@ const ProductPage = () => {
         variant="default"
         startIcon={<Plus />}
         className="cursor-pointer"
-        href="/admin-portal/products/add-products"
+        href="/admin-portal/products/add-product"
       >
         Add Product
       </Button>

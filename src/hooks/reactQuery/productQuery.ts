@@ -1,5 +1,5 @@
 import { axiosClient } from "@/lib/axios-client";
-import { BookmarksSchemaType } from "@/zod/bookmarks-schema";
+import { ProductsSchemaType } from "@/zod/product-schema";
 import { useMutation, useQuery, useQueryClient } from "@tanstack/react-query";
 
 // ===============================|| SHOW URL INFO ||============================== //
@@ -51,7 +51,7 @@ const useShowBookmarksWithCategory = () => {
 const useCreateBookmark = () => {
   const queryClient = useQueryClient();
   const bookmarkCreateMutation = useMutation({
-    mutationFn: async (data: BookmarksSchemaType) => {
+    mutationFn: async (data: ProductsSchemaType) => {
       return await axiosClient.post("/bookmark/create/", data);
     },
     onSettled: () => {
@@ -70,7 +70,7 @@ const useCreateBookmark = () => {
 const useEditBookmark = (bookmarkId: string) => {
   const queryClient = useQueryClient();
   const bookmarkEditMutation = useMutation({
-    mutationFn: async (data: BookmarksSchemaType) => {
+    mutationFn: async (data: ProductsSchemaType) => {
       return await axiosClient.patch(`/bookmark/update/${bookmarkId}`, data);
     },
     onSettled: () => {

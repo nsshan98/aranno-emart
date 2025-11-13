@@ -115,7 +115,7 @@ export function DynamicBreadcrumb() {
     );
 
   return (
-    <Breadcrumb>
+    <Breadcrumb className="pb-6">
       <BreadcrumbList>
         <BreadcrumbItem>
           <BreadcrumbLink asChild>
