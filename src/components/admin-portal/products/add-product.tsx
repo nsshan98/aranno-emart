@@ -4,7 +4,7 @@ import { Input } from "@/components/atoms/input";
 import { Label } from "@/components/atoms/label";
 
 import { Upload, X } from "lucide-react";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { useForm } from "react-hook-form";
 import { productsSchema, ProductsSchemaType } from "@/zod/product-schema";
 import { zodResolver } from "@hookform/resolvers/zod";
@@ -17,6 +17,7 @@ import {
   FormMessage,
 } from "@/components/atoms/form";
 import { MultiSelect } from "@/components/molecules/multi-select";
+import { Textarea } from "@/components/atoms/textarea";
 
 const AddProductComponent = () => {
   const [imagePreview, setImagePreview] = useState(null);
@@ -27,9 +28,24 @@ const AddProductComponent = () => {
     defaultValues: {
       product_name: "",
       product_image: "",
+      weight: "",
+      slug: "",
+      description: "",
+      cost_price: 0,
+      sell_price: 0,
+      discounted_sell_price: 0,
     },
     resolver: zodResolver(productsSchema),
   });
+  const productName = productCreateForm.watch("product_name");
+  const productSlug = productCreateForm.watch("slug");
+
+  useEffect(() => {
+    if (productName) {
+      const slug = productName.toLowerCase().replace(/\s+/g, "-");
+      productCreateForm.setValue("slug", slug);
+    }
+  }, [productName]);
 
   const getFormData = (data: ProductsSchemaType) => {
     const formData = new FormData();
@@ -37,6 +53,17 @@ const AddProductComponent = () => {
       formData.append(".product_image", data.product_image);
     }
     formData.append("product_name", data.product_name);
+    formData.append("weight", data.weight);
+    formData.append("slug", data.slug);
+    formData.append("description", data.description || "");
+    formData.append("description", data.description || "");
+    formData.append("description", data.description || "");
+    formData.append("cost_price", Number(data.cost_price ?? 0).toString());
+    formData.append("sell_price", Number(data.sell_price ?? 0).toString());
+    formData.append(
+      "discounted_sell_price",
+      Number(data.discounted_sell_price ?? 0).toString()
+    );
 
     return formData;
   };
@@ -189,6 +216,69 @@ const AddProductComponent = () => {
                     )}
                   />
                 </div>
+                <div className="grid gap-6 md:grid-cols-2">
+                  <FormField
+                    control={productCreateForm.control}
+                    name="weight"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Product Weight</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="bg-amber-50 border-amber-950"
+                            placeholder="Product Weight"
+                            type="number"
+                            {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+
+                  <FormField
+                    control={productCreateForm.control}
+                    name="slug"
+                    render={({ field }) => (
+                      <FormItem>
+                        <FormLabel>Product Slug</FormLabel>
+                        <FormControl>
+                          <Input
+                            className="bg-amber-50 border-amber-950"
+                            placeholder="Product Slug"
+                            type="text"
+                            value={productSlug || ""}
+                            onChange={(e) => {
+                              productCreateForm.setValue(
+                                "slug",
+                                e.target.value
+                              );
+                            }}
+                            // {...field}
+                          />
+                        </FormControl>
+                        <FormMessage />
+                      </FormItem>
+                    )}
+                  />
+                </div>
+                <FormField
+                  control={productCreateForm.control}
+                  name="description"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormLabel>Product Description</FormLabel>
+                      <FormControl>
+                        <Textarea
+                          className="bg-amber-50 border-amber-950"
+                          placeholder="Product Description"
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
               </div>
             </div>
           </div>
@@ -198,47 +288,77 @@ const AddProductComponent = () => {
             <h2 className="mb-6 text-sm font-medium text-gray-900">Pricing</h2>
 
             <div className="grid gap-6 md:grid-cols-3">
-              <div className="space-y-2">
-                <Label
-                  htmlFor="old-price"
-                  className="text-sm font-normal text-gray-700"
-                >
-                  Old Price
-                </Label>
-                <Input
-                  id="old-price"
-                  placeholder="Enter Old Price"
-                  className="h-10"
-                />
-              </div>
+              <FormField
+                control={productCreateForm.control}
+                name="cost_price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Cost Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="bg-amber-50 border-amber-950"
+                        placeholder="Cost Price"
+                        type="number"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        min={0}
+                        onChange={(e) => {
+                          field.onChange(Number(e.target.value));
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="new-price"
-                  className="text-sm font-normal text-gray-700"
-                >
-                  New Price
-                </Label>
-                <Input
-                  id="new-price"
-                  placeholder="Enter New Price"
-                  className="h-10"
-                />
-              </div>
+              <FormField
+                control={productCreateForm.control}
+                name="sell_price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Sell Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="bg-amber-50 border-amber-950"
+                        placeholder="Sell Price"
+                        type="number"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        min={0}
+                        onChange={(e) => {
+                          field.onChange(Number(e.target.value));
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
 
-              <div className="space-y-2">
-                <Label
-                  htmlFor="discount"
-                  className="text-sm font-normal text-gray-700"
-                >
-                  Discount
-                </Label>
-                <Input
-                  id="discount"
-                  placeholder="Enter Discount"
-                  className="h-10"
-                />
-              </div>
+              <FormField
+                control={productCreateForm.control}
+                name="discounted_sell_price"
+                render={({ field }) => (
+                  <FormItem>
+                    <FormLabel>Discounted Sell Price</FormLabel>
+                    <FormControl>
+                      <Input
+                        className="bg-amber-50 border-amber-950"
+                        placeholder="Discounted Sell Price"
+                        type="number"
+                        inputMode="numeric"
+                        pattern="[0-9]*"
+                        min={0}
+                        onChange={(e) => {
+                          field.onChange(Number(e.target.value));
+                        }}
+                      />
+                    </FormControl>
+                    <FormMessage />
+                  </FormItem>
+                )}
+              />
             </div>
           </div>
 
