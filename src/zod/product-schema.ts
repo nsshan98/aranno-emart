@@ -1,7 +1,7 @@
 import { z } from "zod";
 
 export const productsSchema = z.object({
-  product_name: z.string(),
+  name: z.string(),
   product_image: z.string(),
   weight: z.string(),
   slug: z.string(),
@@ -14,12 +14,18 @@ export const productsSchema = z.object({
 export type ProductsSchemaType = z.infer<typeof productsSchema>;
 
 export type Products = {
-  product_name: string;
-  product_image: string;
+  id: string;
+  name: string;
+  // product_image: string;
   weight: string;
   slug: string;
   description?: string;
+  discount?: number;
+  stock_quantity: number;
+  is_active: boolean;
   cost_price?: number;
   sell_price?: number;
   discounted_sell_price?: number;
+  created_at: string;
+  updated_at: string;
 };

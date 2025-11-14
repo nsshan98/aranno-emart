@@ -28,7 +28,7 @@ const AddProductComponent = () => {
 
   const productCreateForm = useForm<ProductsSchemaType>({
     defaultValues: {
-      product_name: "",
+      name: "",
       product_image: "",
       weight: "",
       slug: "",
@@ -39,7 +39,7 @@ const AddProductComponent = () => {
     },
     resolver: zodResolver(productsSchema),
   });
-  const productName = productCreateForm.watch("product_name");
+  const productName = productCreateForm.watch("name");
   const productSlug = productCreateForm.watch("slug");
 
   useEffect(() => {
@@ -52,9 +52,9 @@ const AddProductComponent = () => {
   const getFormData = (data: ProductsSchemaType) => {
     const formData = new FormData();
     if (data.product_image) {
-      formData.append(".product_image", data.product_image);
+      formData.append("product_image", data.product_image);
     }
-    formData.append("product_name", data.product_name);
+    formData.append("name", data.name);
     formData.append("weight", data.weight);
     formData.append("slug", data.slug);
     formData.append("description", data.description || "");
@@ -195,7 +195,7 @@ const AddProductComponent = () => {
                   <div className="grid gap-6 md:grid-cols-2">
                     <FormField
                       control={productCreateForm.control}
-                      name="product_name"
+                      name="name"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Product Name</FormLabel>
@@ -214,7 +214,7 @@ const AddProductComponent = () => {
 
                     <FormField
                       control={productCreateForm.control}
-                      name="product_name"
+                      name="name"
                       render={({ field }) => (
                         <FormItem>
                           <FormLabel>Product Category</FormLabel>

@@ -30,9 +30,9 @@ const ProductsSection = () => {
                         className="relative overflow-hidden flex items-center justify-center"
                         style={{ height: "200px" }}
                       >
-                        {product.discout && (
+                        {product.discount && (
                           <div className="absolute top-0 left-1 px-3 py-1 rounded-lg text-sm font-bold shadow-md bg-amber-200 text-orange-400">
-                            {product.discout}% OFF
+                            {product.discount}% OFF
                           </div>
                         )}
                         <Image

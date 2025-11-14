@@ -1,3 +1,5 @@
+import { Products } from "@/zod/product-schema";
+
 export const categories = [
   {
     id: 1,
@@ -61,7 +63,7 @@ export const categories = [
   },
 ];
 
-export const products = [
+export const products: Products[] = [
   {
     id: "a1e2c3f4-5678-1234-9abc-1234567890ab",
     name: "Wireless Headphones",
@@ -70,10 +72,9 @@ export const products = [
     cost_price: 60.0,
     sell_price: 99.99,
     discounted_sell_price: 89.99,
-    discout: 10,
+    discount: 10,
     stock_quantity: 25,
     weight: "300gm",
-    image_url: "/images/products/wireless_headphones.jpg",
     is_active: true,
     created_at: "2025-11-12T10:00:00Z",
     updated_at: "2025-11-12T10:00:00Z",
@@ -86,10 +87,9 @@ export const products = [
     cost_price: 100.0,
     sell_price: 149.99,
     discounted_sell_price: 129.99,
-    discout: 10,
+    discount: 10,
     stock_quantity: 40,
     weight: "200gm",
-    image_url: "/images/products/smart_watch.jpg",
     is_active: true,
     created_at: "2025-11-12T10:05:00Z",
     updated_at: "2025-11-12T10:05:00Z",
@@ -102,10 +102,9 @@ export const products = [
     cost_price: 8.0,
     sell_price: 19.99,
     discounted_sell_price: 14.99,
-    discout: 10,
+    discount: 10,
     stock_quantity: 100,
     weight: "500gm",
-    image_url: "/images/products/mens_tshirt.jpg",
     is_active: true,
     created_at: "2025-11-12T10:10:00Z",
     updated_at: "2025-11-12T10:10:00Z",
@@ -118,10 +117,9 @@ export const products = [
     cost_price: 35.0,
     sell_price: 59.99,
     discounted_sell_price: 49.99,
-    discout: 10,
+    discount: 10,
     stock_quantity: 30,
     weight: "1kg",
-    image_url: "/images/products/coffee_maker.jpg",
     is_active: true,
     created_at: "2025-11-12T10:15:00Z",
     updated_at: "2025-11-12T10:15:00Z",
@@ -135,10 +133,9 @@ export const products = [
     cost_price: 120.0,
     sell_price: 199.99,
     discounted_sell_price: 179.99,
-    discout: 10,
+    discount: 10,
     stock_quantity: 15,
     weight: "15kg",
-    image_url: "/images/products/gaming_chair.jpg",
     is_active: true,
     created_at: "2025-11-12T10:20:00Z",
     updated_at: "2025-11-12T10:20:00Z",

@@ -1,3 +1,4 @@
+"use client";
 import {
   Table,
   TableBody,
@@ -17,8 +18,27 @@ import { products } from "@/lib/test-data";
 import { EllipsisVertical, SquarePen, Trash2 } from "lucide-react";
 import Image from "next/image";
 import { Button } from "@/components/atoms/button";
+import { useState } from "react";
+import { Products } from "@/zod/product-schema";
+import ProductDeleteComponent from "./delete-product";
 
 const ProductsTableComponent = () => {
+  const [selectedProduct, setSelectedProduct] = useState<{
+    product_id: string | null;
+    openState: "delete" | null;
+  }>({ product_id: "", openState: null });
+  const [openModal, setOpenModal] = useState(false);
+
+  const handleOpenDeleteProductModal = (product: Products) => {
+    setSelectedProduct({ product_id: product.id, openState: "delete" });
+    setOpenModal(true);
+  };
+
+  const handleCloseModal = () => {
+    setSelectedProduct({ product_id: null, openState: null });
+    setOpenModal(false);
+  };
+
   return (
     <Table className="mt-3 border-1 border-orange-400">
       <TableHeader>
@@ -65,7 +85,12 @@ const ProductsTableComponent = () => {
                       <SquarePen className="text-inherit" />
                       Edit Product
                     </DropdownMenuItem>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        handleOpenDeleteProductModal(product);
+                        setOpenModal(true);
+                      }}
+                    >
                       <Trash2 className="text-red-600" />
                       Delete Product
                     </DropdownMenuItem>
@@ -75,6 +100,10 @@ const ProductsTableComponent = () => {
             </TableCell>
           </TableRow>
         ))}
+
+        {selectedProduct && selectedProduct.openState == "delete" && (
+          <ProductDeleteComponent open={openModal} onClose={handleCloseModal} />
+        )}
       </TableBody>
     </Table>
   );
