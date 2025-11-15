@@ -1,14 +1,15 @@
 import React from "react";
 import {
-  AlertDialog,
-  AlertDialogAction,
-  AlertDialogCancel,
-  AlertDialogContent,
-  AlertDialogDescription,
-  AlertDialogFooter,
-  AlertDialogHeader,
-  AlertDialogTitle,
-} from "../atoms/alert-dialog";
+  Dialog,
+  DialogContent,
+  DialogHeader,
+  DialogTitle,
+  DialogDescription,
+  DialogFooter,
+} from "@/components/atoms/dialog";
+import { Trash2 } from "lucide-react";
+import { Button } from "../atoms/button";
+import { Spinner } from "../atoms/spinner";
 
 type DeleteModalProps = {
   open: boolean;
@@ -26,28 +27,46 @@ const DeleteModal = ({
   console.log(isLoading);
   return (
     <div>
-      <AlertDialog open={open} onOpenChange={onClose}>
-        <AlertDialogContent>
-          <AlertDialogHeader>
-            <AlertDialogTitle>Delete Bookmark</AlertDialogTitle>
-            <AlertDialogDescription>
-              Are you sure you want to delete this bookmark? This action cannot
-              be undone.
-            </AlertDialogDescription>
-          </AlertDialogHeader>
-          <AlertDialogFooter>
-            <AlertDialogCancel className="bg-gray-900 hover:bg-gray-800 hover:text-white">
-              Cancel
-            </AlertDialogCancel>
-            <AlertDialogAction
-              onClick={onConfirm}
-              className="bg-red-600 hover:bg-red-700"
+      <Dialog open={open} onOpenChange={onClose}>
+        <DialogContent className="sm:max-w-sm rounded-2xl">
+          <DialogHeader className="flex flex-col items-center text-center">
+            <div className="flex items-center justify-center mb-3">
+              <Trash2 className="w-20 h-20 p-3 rounded-full bg-red-400 text-red-200" />
+            </div>
+            <DialogTitle className="text-2xl font-semibold font-inter">
+              Do You Want To Delete?
+            </DialogTitle>
+            <DialogDescription className="mt-1 text-gray-500 font-inter">
+              Action cannot be undone!
+            </DialogDescription>
+          </DialogHeader>
+
+          <DialogFooter className="flex justify-center gap-3 mt-4">
+            <Button
+              variant="ghost"
+              className="font-inter"
+              onClick={onClose}
+              disabled={isLoading}
             >
-              Delete
-            </AlertDialogAction>
-          </AlertDialogFooter>
-        </AlertDialogContent>
-      </AlertDialog>
+              Cancel
+            </Button>
+            <Button
+              className="bg-red-600 hover:bg-red-700 font-bold font-inter"
+              onClick={onConfirm}
+              disabled={isLoading}
+            >
+              {isLoading ? (
+                <div className="flex items-center space-x-2">
+                  <p>Deleting...</p>
+                  <Spinner />
+                </div>
+              ) : (
+                "Confirm"
+              )}
+            </Button>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
     </div>
   );
 };

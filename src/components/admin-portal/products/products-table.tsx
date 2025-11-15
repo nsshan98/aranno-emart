@@ -21,8 +21,10 @@ import { Button } from "@/components/atoms/button";
 import { useState } from "react";
 import { Products } from "@/zod/product-schema";
 import ProductDeleteComponent from "./delete-product";
+import { useRouter } from "next/navigation";
 
 const ProductsTableComponent = () => {
+  const router = useRouter();
   const [selectedProduct, setSelectedProduct] = useState<{
     product_id: string | null;
     openState: "delete" | null;
@@ -40,9 +42,9 @@ const ProductsTableComponent = () => {
   };
 
   return (
-    <Table className="mt-3 border-1 border-orange-400">
+    <Table className="mt-3 border-1 border-gray-300">
       <TableHeader>
-        <TableRow className="bg-amber-200 text-sm font-medium">
+        <TableRow className="bg-gray-100 dark:bg-neutral-500 text-sm font-medium">
           <TableHead className="font-semibold">S.L.</TableHead>
           <TableHead className="font-semibold">Product</TableHead>
           <TableHead className="font-semibold">Stock</TableHead>
@@ -81,7 +83,13 @@ const ProductsTableComponent = () => {
                 </DropdownMenuTrigger>
                 <DropdownMenuContent className="w-40" align="end">
                   <DropdownMenuGroup>
-                    <DropdownMenuItem>
+                    <DropdownMenuItem
+                      onClick={() => {
+                        router.push(
+                          `/admin-portal/products/edit-product/${product.id}`
+                        );
+                      }}
+                    >
                       <SquarePen className="text-inherit" />
                       Edit Product
                     </DropdownMenuItem>

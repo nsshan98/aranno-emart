@@ -86,23 +86,6 @@ const AddProductComponent = () => {
     console.log(data);
   };
 
-  //   const handleInputChange = (e) => {
-  //     const { name, value } = e.target;
-  //     setFormData(prev => ({ ...prev, [name]: value }));
-  //   };
-
-  //   const handleCategoryChange = (value) => {
-  //     setFormData(prev => ({ ...prev, category: value }));
-  //   };
-
-  //   const handleBrandChange = (value) => {
-  //     setFormData(prev => ({ ...prev, brand: value }));
-  //   };
-
-  //   const handleStatusChange = (checked) => {
-  //     setFormData(prev => ({ ...prev, status: checked }));
-  //   };
-
   //   const handleDragOver = (e) => {
   //     e.preventDefault();
   //     setIsDragging(true);
@@ -167,9 +150,7 @@ const AddProductComponent = () => {
             <div className="grid gap-8 lg:grid-cols-[1fr_2fr]">
               {/* Left: Product Image */}
               <div>
-                <h2 className="mb-4 text-sm font-medium text-gray-900">
-                  Product Image
-                </h2>
+                <h2 className="mb-4 text-lg font-medium">Product Image</h2>
                 <div className="flex h-64 flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-6 text-center transition-colors hover:border-gray-400">
                   <Upload className="mb-4 h-12 w-12 text-gray-400" />
                   <p className="text-sm text-gray-600">
@@ -179,16 +160,14 @@ const AddProductComponent = () => {
                     or drag and drop
                   </p>
                   <p className="mt-1 text-xs text-gray-500">
-                    SVG, PNG, JPG or GIF (max. 2MB)
+                    PNG, JPG or JPEG (max. 2MB)
                   </p>
                 </div>
               </div>
 
               {/* Right: Basic Info */}
               <div>
-                <h2 className="mb-6 text-sm font-medium text-gray-900">
-                  Basic Info
-                </h2>
+                <h2 className="mb-6 text-lg font-medium">Basic Info</h2>
 
                 <div className="grid gap-6">
                   {/* Product Name, Category, Brand */}
@@ -295,9 +274,7 @@ const AddProductComponent = () => {
 
             {/* === Pricing Section === */}
             <div className="mt-8 border-t pt-8">
-              <h2 className="mb-6 text-sm font-medium text-gray-900">
-                Pricing
-              </h2>
+              <h2 className="mb-6 text-lg font-medium">Pricing</h2>
 
               <div className="grid gap-6 md:grid-cols-3">
                 <FormField
