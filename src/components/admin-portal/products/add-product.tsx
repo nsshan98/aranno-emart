@@ -19,12 +19,15 @@ import {
 import { MultiSelect } from "@/components/molecules/multi-select";
 import { Textarea } from "@/components/atoms/textarea";
 import { useRouter } from "next/navigation";
+import { cn } from "@/lib/utils";
+import Image from "next/image";
+import { Alert, AlertTitle } from "@/components/atoms/alert";
 
 const AddProductComponent = () => {
   const router = useRouter();
-  const [imagePreview, setImagePreview] = useState(null);
+  const [imagePreview, setImagePreview] = useState<string | null>();
   const [isDragging, setIsDragging] = useState(false);
-  const fileInputRef = useRef(null);
+  const fileInputRef = useRef<HTMLInputElement | null>(null);
 
   const productCreateForm = useForm<ProductsSchemaType>({
     defaultValues: {
@@ -86,53 +89,47 @@ const AddProductComponent = () => {
     console.log(data);
   };
 
-  //   const handleDragOver = (e) => {
-  //     e.preventDefault();
-  //     setIsDragging(true);
-  //   };
+  const handleDragOver = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(true);
+  };
 
-  //   const handleDragLeave = (e) => {
-  //     e.preventDefault();
-  //     setIsDragging(false);
-  //   };
+  const handleDragLeave = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+  };
 
-  //   const handleDrop = (e) => {
-  //     e.preventDefault();
-  //     setIsDragging(false);
-  //     const file = e.dataTransfer.files[0];
-  //     handleFileUpload(file);
-  //   };
+  const handleDrop = (e: React.DragEvent<HTMLDivElement>) => {
+    e.preventDefault();
+    setIsDragging(false);
+    const file = e.dataTransfer.files[0];
+    handleFileUpload(file);
+  };
 
-  //   const handleFileSelect = (e) => {
-  //     const file = e.target.files[0];
-  //     handleFileUpload(file);
-  //   };
+  const handleFileSelect = (e: React.ChangeEvent<HTMLInputElement>) => {
+    const file = e.target.files?.[0];
+    handleFileUpload(file as File);
+  };
 
-  //   const handleFileUpload = (file) => {
-  //     if (file && file.type.startsWith('image/')) {
-  //       const reader = new FileReader();
-  //       reader.onloadend = () => {
-  //         setImagePreview(reader.result);
-  //         setFormData(prev => ({ ...prev, image_url: reader.result }));
-  //       };
-  //       reader.readAsDataURL(file);
-  //     }
-  //   };
+  const handleFileUpload = (file: File) => {
+    if (file && file.type.startsWith("image/")) {
+      // store file in react-hook-form
+      productCreateForm.setValue("product_image", file);
 
-  //   const removeImage = () => {
-  //     setImagePreview(null);
-  //     setFormData(prev => ({ ...prev, image_url: "" }));
-  //     if (fileInputRef.current) {
-  //       fileInputRef.current.value = "";
-  //     }
-  //   };
+      // preview
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setImagePreview(reader.result as string);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
 
-  //   const handleSubmit = (e) => {
-  //     e.preventDefault();
-  //     if (onSubmit) {
-  //       onSubmit(formData);
-  //     }
-  //   };
+  const removeImage = () => {
+    setImagePreview(null);
+    productCreateForm.setValue("product_image", "");
+    if (fileInputRef.current) fileInputRef.current.value = "";
+  };
 
   return (
     <div>
@@ -151,18 +148,71 @@ const AddProductComponent = () => {
               {/* Left: Product Image */}
               <div>
                 <h2 className="mb-4 text-lg font-medium">Product Image</h2>
-                <div className="flex h-64 flex-col items-center justify-center rounded-lg border-2 border-dashed border-gray-300 bg-gray-50 p-6 text-center transition-colors hover:border-gray-400">
-                  <Upload className="mb-4 h-12 w-12 text-gray-400" />
-                  <p className="text-sm text-gray-600">
-                    <span className="font-medium text-red-500">
-                      Click to upload
-                    </span>{" "}
-                    or drag and drop
-                  </p>
-                  <p className="mt-1 text-xs text-gray-500">
-                    PNG, JPG or JPEG (max. 2MB)
-                  </p>
+
+                <div
+                  className={cn(
+                    "flex h-64 w-full flex-col items-center justify-center rounded-lg border-2 border-dashed p-2 text-center transition-colors cursor-pointer",
+                    "bg-muted/40 border-muted-foreground/30 hover:border-muted-foreground/50",
+                    isDragging && "border-primary bg-primary/10"
+                  )}
+                  onDragOver={handleDragOver}
+                  onDragLeave={handleDragLeave}
+                  onDrop={handleDrop}
+                  onClick={() => fileInputRef.current?.click()}
+                >
+                  {imagePreview ? (
+                    <div className="relative h-full w-full flex items-center justify-center">
+                      <Image
+                        src={imagePreview}
+                        alt="Preview"
+                        fill
+                        className="h-full w-auto rounded-md object-contain"
+                      />
+
+                      <Button
+                        type="button"
+                        onClick={(e) => {
+                          e.stopPropagation();
+                          removeImage();
+                        }}
+                        className="absolute top-0 right-0 rounded-full bg-black/70 p-1 text-white shadow"
+                      >
+                        <X className="h-4 w-4" />
+                      </Button>
+                    </div>
+                  ) : (
+                    <>
+                      <Upload className="mb-4 h-12 w-12 text-muted-foreground" />
+                      <p className="text-sm text-muted-foreground">
+                        <span className="font-medium text-primary">
+                          Click to upload
+                        </span>{" "}
+                        or drag and drop
+                      </p>
+                      <p className="mt-1 text-xs text-muted-foreground">
+                        PNG, JPG, JPEG (max 2MB)
+                      </p>
+                    </>
+                  )}
                 </div>
+
+                <input
+                  ref={fileInputRef}
+                  type="file"
+                  accept="image/*"
+                  onChange={handleFileSelect}
+                  className="hidden"
+                />
+                {productCreateForm.formState.errors.product_image && (
+                  <Alert
+                    variant={"destructive"}
+                    className="border-none p-0 mt-2"
+                  >
+                    <AlertTitle>
+                      {productCreateForm.formState.errors.product_image.message}
+                    </AlertTitle>
+                  </Alert>
+                )}
               </div>
 
               {/* Right: Basic Info */}

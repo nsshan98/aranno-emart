@@ -1,8 +1,26 @@
 import { z } from "zod";
 
+const fileSizeLimit = 5 * 1024 * 1024;
+
 export const productsSchema = z.object({
   name: z.string(),
-  product_image: z.string(),
+  product_image: z
+    .union([
+      z.string().optional(),
+      z
+        .instanceof(File)
+        .refine(
+          (file) =>
+            ["image/jpg", "image/jpeg", "image/png", "image/heic"].includes(
+              file.type
+            ),
+          { message: "Invalid image file type." }
+        )
+        .refine((file) => file.size <= fileSizeLimit, {
+          message: "File size should not exceed 5MB",
+        }),
+    ])
+    .optional(),
   weight: z.string(),
   slug: z.string(),
   description: z.string().optional(),
