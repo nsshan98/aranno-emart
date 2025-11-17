@@ -1,7 +1,6 @@
 "use client";
 import { Button } from "@/components/atoms/button";
 import { Input } from "@/components/atoms/input";
-import { Label } from "@/components/atoms/label";
 
 import { Upload, ArrowLeft, X } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
