@@ -1,6 +1,6 @@
 "use client";
 import React, { useState, useEffect } from "react";
-import { Menu, ShoppingCart } from "lucide-react";
+import { Menu, Search, ShoppingCart } from "lucide-react";
 import { Button } from "../atoms/button";
 import {
   Sheet,
@@ -12,6 +12,11 @@ import {
 import { ThemeToggle } from "./theme-toggle";
 import { useRouter } from "next/navigation";
 import Link from "next/link";
+import {
+  InputGroup,
+  InputGroupAddon,
+  InputGroupInput,
+} from "../atoms/input-group";
 
 export const Header = () => {
   const router = useRouter();
@@ -60,16 +65,13 @@ export const Header = () => {
           </div>
 
           {/* Desktop Navigation */}
-          <nav className="hidden md:flex items-center space-x-1">
-            {navLinks.map((link) => (
-              <a
-                key={link.label}
-                href={link.href}
-                className="px-4 py-2 text-sm font-medium text-foreground/80 hover:text-foreground hover:bg-accent/50 rounded-md transition-colors duration-200"
-              >
-                {link.label}
-              </a>
-            ))}
+          <nav className="hidden md:flex items-center w-full mx-8 ">
+            <InputGroup>
+              <InputGroupInput placeholder="Search..." />
+              <InputGroupAddon>
+                <Search />
+              </InputGroupAddon>
+            </InputGroup>
           </nav>
 
           {/* Desktop CTA Buttons */}

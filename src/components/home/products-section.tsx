@@ -3,6 +3,7 @@ import React from "react";
 import { Card, CardContent } from "../atoms/card";
 import { Package } from "lucide-react";
 import Image from "next/image";
+import ProductDetails from "../admin-portal/products/product-details";
 
 const ProductsSection = () => {
   return (
@@ -62,11 +63,12 @@ const ProductsSection = () => {
                               </span>
                             )}
                           </div>
-                          <button className="w-12 h-12 rounded-full bg-[#ff8903] hover:bg-[#ff6900] text-white flex items-center justify-center shadow-lg transition">
+                          {/* <button className="w-12 h-12 rounded-full bg-[#ff8903] hover:bg-[#ff6900] text-white flex items-center justify-center shadow-lg transition">
                             <span className="text-2xl font-light">+</span>
-                          </button>
+                          </button> */}
                         </div>
                       </div>
+                      <ProductDetails />
                     </CardContent>
                   </Card>
                 );
